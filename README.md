@@ -1,4 +1,4 @@
-# EEG Sonification
+# EEG Sonify
 
 This repository contains an ongoing work in turning EEG recordings into sounds.
 
