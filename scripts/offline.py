@@ -81,13 +81,13 @@ if __name__ == "__main__":
 
     ###### Sonify eog artifacts ######
     eog_sonification = sonification.sonify_eog_artifacts(artifacts)
-    sonification.write_data_to_wav("eog_artifacts_ch_FC5.wav", eog_sonification)
+    sonification.write_data_to_wav("./media/eog_artifacts_ch_FC5.wav", eog_sonification)
 
     ###### Sonify mu rhythm ######
     mu_sonification = sonification.sonify_mu_rhythm(mu_array)
-    sonification.write_data_to_wav("mu_rhythm_ch_CP5.wav", mu_sonification)
+    sonification.write_data_to_wav("./media/mu_rhythm_ch_CP5.wav", mu_sonification)
 
     ###### Sonify all together ######
     final_sonification = sonification.data_unification(eog_sonification, mu_sonification)
-    sonification.write_data_to_wav("final_ch_FC5_CP5.wav", final_sonification)
+    sonification.write_data_to_wav("./media/final_ch_FC5_CP5.wav", final_sonification)
 
