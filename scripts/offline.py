@@ -35,7 +35,7 @@ if __name__ == "__main__":
     filter_array = mne.filter.filter_data(array, 200, 1, 10, fir_window='hann', filter_length="10s", fir_design='firwin2')
 
     #Compute mean, standard deviation and threshold for each channel
-    mean, std, thr, thr2 = offline.artifact.compute_mean_std_trh(filter_array)
+    mean, std, thr, thr2 = sonify.offline.artifact.compute_mean_std_trh(filter_array)
 
     #Extract artifacts and number, for each channel
     Nartifacts, artifacts = offline.artifact.find_artifacts(filter_array, thr, thr2)
