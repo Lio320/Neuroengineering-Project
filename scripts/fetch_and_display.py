@@ -1,5 +1,5 @@
-from utils import get_data
-get_data()
+from utils import add_parent
+add_parent()
 
 import sonify
 from sonify.artifact import EventArtifactDetector
