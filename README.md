@@ -1,4 +1,5 @@
 # EEG Sonify
+[![report](https://img.shields.io/badge/Report-pdf-lightgrey)](https://nbviewer.jupyter.org/github/artur-deluca/eeg_sonify/blob/master/Report.pdf)
 
 This repository contains an ongoing work in turning EEG recordings into sounds.
 
