@@ -27,7 +27,7 @@ def read_streams(streams, plot_duration, plt):
 
 def fn(x,y): pass # helper function
 
-def receive(plot_duration=8, update_interval=30, pull_interval=100, fn=fn):
+def fetch(plot_duration=10, update_interval=30, pull_interval=250, fn=fn):
     """
     Receive, preprocess and plot LSL recording
     Args:
@@ -36,7 +36,7 @@ def receive(plot_duration=8, update_interval=30, pull_interval=100, fn=fn):
     update_interval: int
         ms between screen updates
     pull_interval: int
-        ms between each pull operation
+        ms of each pull operation
     fn: function
         preprocessing function
     """
@@ -63,7 +63,8 @@ def receive(plot_duration=8, update_interval=30, pull_interval=100, fn=fn):
         pw.setXRange(plot_time - plot_duration + fudge_factor, plot_time - fudge_factor)
 
     def update():
-        # Read data from the inlet. Use a timeout of 0.0 so we don't block GUI interaction.
+        # Read data from the inlet.
+        # Use a timeout of 0.0 so we don't block GUI interaction.
         mintime = pylsl.local_clock() - plot_duration
         # call pull_and_plot for each inlet.
         # Special handling of inlet types (markers, continuous data) is done in
@@ -76,9 +77,15 @@ def receive(plot_duration=8, update_interval=30, pull_interval=100, fn=fn):
                         detected = fn(ts, window)
                         if detected:
                             for t in detected:
-                                plt.addItem(pg.InfiniteLine(t, angle=90, movable=False, label="Artifact"))
+                                plt.addItem(
+                                    pg.InfiniteLine(t, angle=90, movable=False,
+                                        pen=pg.mkPen(
+                                            color=(255, 119, 0), 
+                                            style=QtCore.Qt.DotLine)
+                                        )
+                                )
 
-                    except (TypeError, ValueError):
+                    except TypeError:
                         continue
 
                 elif isinstance(inlet, MarkerInlet):
@@ -93,7 +100,6 @@ def receive(plot_duration=8, update_interval=30, pull_interval=100, fn=fn):
     pull_timer = QtCore.QTimer()
     pull_timer.timeout.connect(update)
     pull_timer.start(pull_interval)
-
 
     # Start Qt event loop unless running in interactive mode or using pyside.
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):

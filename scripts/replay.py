@@ -1,7 +1,6 @@
 import argparse
 from sonify.stream import replay, is_valid_file
 
-file_path = "./dataset/sourcedata/sub-05/eeg/sub-05_task-matchingpennies_eeg.xdf"
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description="Replay a LSL Recording from an XDF file")
@@ -17,6 +16,9 @@ parser.add_argument("-u", "--undersample", type=int, dest="us_rate", action="sto
 
 if __name__ == "__main__":
     args = parser.parse_args()
+
+    file_path = "./dataset/sourcedata/sub-05/eeg/sub-05_task-matchingpennies_eeg.xdf"
+    us_rate = 200
     #replay(args.file_path, args.us_rate, args.repeat_times, args.verbose)
-    replay(file_path, args.us_rate, args.repeat_times, args.verbose)
+    replay(file_path, us_rate, args.repeat_times, args.verbose)
 

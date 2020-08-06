@@ -25,13 +25,6 @@ class Inlet:
         self.channel_count = info.channel_count()
 
     def pull_and_plot(self, plot_time, plt):
-        """Pull data from the inlet and add it to the plot.
-        Args:
-        plot_time:
-            lowest timestamp that's still visible in the plot
-        plt:
-            the plot the data should be shown on
-        """
         # We don't know what to do with a generic inlet, so we skip it.
         pass
 
@@ -51,14 +44,20 @@ class DataInlet(Inlet):
         self.curves = [pg.PlotCurveItem(x=empty, y=empty, autoDownsample=True) for _ in range(self.channel_count)]
         for curve in self.curves:
             plt.addItem(curve)
-        # TODO extend window for artifact detection
-        #self.max_time = 0 # to return a bigger window for plotting
 
     def pull_and_plot(self, plot_time, plt):
+        """Pull data from the inlet and add it to the plot.
+        Args:
+        plot_time:
+            lowest timestamp that's still visible in the plot
+        plt:
+            the plot the data should be shown on
+        """
         # pull the data
         _, ts = self.inlet.pull_chunk(timeout=0.0,
                                       max_samples=self.buffer.shape[0],
-                                      dest_obj=self.buffer)
+                                      dest_obj=self.buffer
+        )
         # ts will be empty if no samples were pulled, a list of timestamps otherwise
         if ts:
             ts = np.asarray(ts)
@@ -81,15 +80,13 @@ class DataInlet(Inlet):
                     new_offset = ts.searchsorted(plot_time)
                     # append new timestamps to the trimmed old timestamps
                     this_x = np.hstack((old_x[old_offset:], ts[new_offset:]))
-                    window = np.empty([self.channel_count, this_x.size])
+
                 # append new data to the trimmed old data
                 # ch_ix*10 is used to give some space between channels
                 this_y = np.hstack((old_y[old_offset:], y[new_offset:, ch_ix] - ch_ix*10))
                 # replace the old data
                 self.curves[ch_ix].setData(this_x, this_y)
-                window[ch_ix] = this_y
-
-            return this_x[:old_offset], window[:, :old_offset] 
+            return ts, y[:, list(range(self.channel_count))].T
 
 
 class MarkerInlet(Inlet):

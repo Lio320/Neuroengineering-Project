@@ -32,6 +32,7 @@ def add_to_node(cur_dict, node):
             node.append_child_value(key, value[0])
 
 def lsl_stream(stream, delay, us_rate, repeat_times, verbose):
+
     s_info = stream["info"]
 
     # Copy the stream meta data
@@ -39,6 +40,22 @@ def lsl_stream(stream, delay, us_rate, repeat_times, verbose):
         nominal_srate = IRREGULAR_RATE
     else:
         nominal_srate = float(s_info["nominal_srate"][0])
+
+    if us_rate:
+        if us_rate > 0:
+            if us_rate > nominal_srate:
+                    warnings.warn("Undersampling frequecy ({} Hz) greater".format(us_rate) + \
+                        "than nominal sampling rate ({} Hz). Using original".format(nominal_srate),
+                    Warning)
+                    step = 1
+            else:
+                    step = int(nominal_srate // int(us_rate))
+                    nominal_srate = int(us_rate)
+        else:
+            warnings.warn("Invalid undersampling frequency. Using original")
+            step = 1
+    else:
+        step = 1
 
     # new stream info
     # trying to replicate the from s_info
@@ -52,10 +69,6 @@ def lsl_stream(stream, delay, us_rate, repeat_times, verbose):
     if (s_info["desc"][0] is not None):
         add_to_node(s_info["desc"][0], info.desc())
 
-    # Start the LSL stream
-    print("Starting LSL stream: " + s_info['name'][0])
-    outlet = StreamOutlet(info, 1, 36)
-    time.sleep(delay+10)
 
     first_timestamp = stream["time_stamps"][0]
     cur_timestamp = stream["time_stamps"][0]
@@ -67,21 +80,10 @@ def lsl_stream(stream, delay, us_rate, repeat_times, verbose):
     remaining_loops = int(repeat_times)
     time_offset = 0
 
-    if us_rate:
-        if us_rate > 0:
-            if us_rate > nominal_srate:
-                    warnings.warn("Undersampling frequecy ({} Hz) greater" +
-                    "than nominal sampling rate ({} Hz). Using original".format(
-                        us_rate, nominal_srate
-                    ), Warning)
-                    step = 1
-            else:
-                    step = int(nominal_srate // us_rate)
-        else:
-            warnings.warn("Invalid undersampling frequency. Using original")
-            step = 1
-    else:
-        step = 1
+    # Start the LSL stream
+    print("Starting LSL stream: " + s_info['name'][0])
+    outlet = StreamOutlet(info, 1, 36)
+    time.sleep(delay+5)
 
     while (remaining_loops >= 1 or remaining_loops == 0):
         # Reduce by 1 if not infinite loop key (0)
@@ -99,7 +101,6 @@ def lsl_stream(stream, delay, us_rate, repeat_times, verbose):
 
             if verbose:
                 print(mysample)
-
             
             delta = stamp - local_clock()
 
