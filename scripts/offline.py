@@ -10,11 +10,11 @@ from sonify.offline import OfflineSonify
 
 
 # Path to the vhdr file (brainvision)
-dataset_folder = 'dataset/sub-05/eeg'
-dataset_file = 'sub-05_task-matchingpennies_eeg.vhdr'
+dataset_folder = offline.options.dataset_folder
+dataset_file = offline.options.dataset_file  
 
 # Sampling frequency after downsampling
-samp_freq = 200
+samp_freq = offline.options.samp_freq
 
 if __name__ == "__main__":
 
