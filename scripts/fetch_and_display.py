@@ -1,3 +1,6 @@
+from utils import get_data
+get_data()
+
 import sonify
 from sonify.artifact import EventArtifactDetector
 from sonify.sonify import Sonify

@@ -1,4 +1,7 @@
 import argparse
+
+from utils import add_parent
+add_parent()
 from sonify.stream import replay, is_valid_file
 
 parser = argparse.ArgumentParser(

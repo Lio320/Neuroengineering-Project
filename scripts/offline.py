@@ -1,9 +1,13 @@
+import sys
 import mne
 import numpy as np
 from matplotlib import pyplot as plt
 
+from utils import add_parent
+add_parent()
 from sonify import offline
 from sonify.offline import OfflineSonify
+
 
 # Path to the vhdr file (brainvision)
 dataset_folder = 'dataset/sub-05/eeg'
