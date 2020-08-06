@@ -32,7 +32,7 @@ def compute_mean_std_trh(channel):
         #thr.append((np.max(channel[i])-np.min(channel[i]))/4)
     return mean, std, thr, thr2
 
-# Find artifacts in a channel
+# Find artifacts in all channels
 def find_artifacts(channel, thr, thr2):
     """
         Computes the artifacts and the number of artifacts of the
@@ -98,9 +98,6 @@ def plot_artifacts_ch(artifacts, thr, thr2):
     plt.title("artifacts channel %d" %channel)
     plt.show()
 
-# def detect_eog_artifacts(raw):
-#     ecg_events = mne.preprocessing.find_ecg_events(raw, ch_name='C4')
-#     return ecg_events
 
 def plot_mu(mu):
     """
