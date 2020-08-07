@@ -9,6 +9,6 @@ Another use is to warn technicians of unwanted artifacts during a session. In th
 The data used for this task was extracted from [Appelhoff et al. (2018)](https://osf.io/cj2dr/wiki/home/)
 
 ### Contributors
-[Artur de Luca](https://github.com/IonutMotoi), 
+[Artur de Luca](https://github.com/artur-deluca), 
 [Ionut Motoi](https://github.com/IonutMotoi), and 
 [Leonardo Saraceni](https://github.com/Lio320)
