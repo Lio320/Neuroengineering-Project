@@ -10,7 +10,7 @@ PyQt5-sip==12.8.0
 pyqtgraph==0.11.0
 python-dateutil==2.8.1
 pyxdf==1.16.2
-scipy==1.5.2
+scipy==1.10.0
 six==1.15.0
 CFFI==1.14.1
 pycparser==2.20
